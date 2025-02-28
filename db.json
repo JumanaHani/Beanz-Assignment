@@ -1,0 +1,35 @@
+{
+  "books": [
+    {
+      "id": "1",
+      "title": "Flutter for Beginners",
+      "author": "John Doe",
+      "description": null,
+      "image": "/data/user/0/com.example.beanz_assessment/cache/33f8c961-f8f8-4039-92e9-d0cfa1755c82/1000034328.jpg",
+      "isFavorite": false
+    },
+    {
+      "id": "2",
+      "title": "Mastering Dart",
+      "author": "Jane Smith",
+      "description": "An advanced guide to Dart programming.",
+      "image": "https://st.depositphotos.com/1741875/1237/i/450/depositphotos_12376816-stock-photo-stack-of-old-books.jpg"
+    },
+    {
+      "title": "book",
+      "author": "jumana",
+      "description": null,
+      "publicationDate": null,
+      "image": "/data/user/0/com.example.beanz_assessment/cache/ba342da4-e370-4b19-b833-eb361f7b9928/1000033696.jpg",
+      "id": "a0b8"
+    },
+    {
+      "id": "480a",
+      "title": "gg",
+      "author": "et",
+      "description": null,
+      "publicationDate": null,
+      "image": ""
+    }
+  ]
+}

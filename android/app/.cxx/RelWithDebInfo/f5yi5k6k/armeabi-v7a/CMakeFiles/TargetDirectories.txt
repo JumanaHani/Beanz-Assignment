@@ -1,0 +1,2 @@
+C:/Users/engsu/beanz_assessment/android/app/.cxx/RelWithDebInfo/f5yi5k6k/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/engsu/beanz_assessment/android/app/.cxx/RelWithDebInfo/f5yi5k6k/armeabi-v7a/CMakeFiles/rebuild_cache.dir
