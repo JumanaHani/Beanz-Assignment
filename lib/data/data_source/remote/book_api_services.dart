@@ -1,15 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:beanz_assessment/data/models/Book.dart';
+import 'package:beanz_assessment/domain/models/Book.dart';
 import 'package:http/http.dart' as http;
 
 class BookApiService {
   // you need to run json-server --watch db.json --port 3001 to generate a mock api server
   static const String baseUrl =
-      "http://192.168.166.185:3001/books"; // for physical devices I use the IPadress of the  mock API server device
+      "http://192.168.1.22:3001/books"; // for physical devices I use the IPadress of the  mock API server device
   //static const String baseUrl = 'http://10.0.2.2:3001/books'; // For Emulator
- 
- 
+
   Future<List<Book>> fetchBooks() async {
     try {
       final response = await http.get(Uri.parse(baseUrl));
@@ -30,27 +29,32 @@ class BookApiService {
   }
 
   // Add a new book
-  Future<void> addBook(Book book) async {
+  Future<Book> addBook(Book book) async {
     final response = await http.post(
       Uri.parse(baseUrl),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(book.toJson()),
     );
-
-    if (response.statusCode != 201) {
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = jsonDecode(response.body);
+      return Book.fromJson(responseData); // Convert response to Book object
+    } else {
       throw Exception('Failed to add book');
     }
   }
 
   // Edit an existing book
-  Future<void> editBook(Book book) async {
+  Future<Book> editBook(Book book) async {
     final response = await http.put(
       Uri.parse('$baseUrl/${book.id}'),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(book.toJson()),
     );
 
-    if (response.statusCode != 200) {
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = jsonDecode(response.body);
+      return Book.fromJson(responseData); // Convert response to Book object
+    } else {
       throw Exception('Failed to update book');
     }
   }

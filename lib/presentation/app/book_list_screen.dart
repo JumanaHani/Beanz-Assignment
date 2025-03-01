@@ -1,112 +1,93 @@
 import 'dart:io';
+import 'package:beanz_assessment/presentation/Bloc/bloc/book_bloc.dart';
+import 'package:beanz_assessment/presentation/Bloc/bloc/book_event.dart';
+import 'package:beanz_assessment/presentation/Bloc/bloc/book_state.dart';
 import 'package:flutter/material.dart';
-import 'package:beanz_assessment/data/models/Book.dart';
-import 'package:beanz_assessment/presentation/app/book_list_controller.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BooksList extends StatefulWidget {
-  const BooksList({super.key});
-
-  @override
-  State<BooksList> createState() => _BooksListState();
-}
-
-class _BooksListState extends State<BooksList> {
-  final BookController _bookController = BookController(); // Controller instance
-
-  @override
-  void initState() {
-    super.initState();
-    _bookController.fetchBooks();  // Fetch books when the widget is initialized
-    _bookController.initSearchController();  // Initialize search controller
-  }
-
-  @override
-  void dispose() {
-    _bookController.dispose();  // Clean up resources when the widget is disposed
-    super.dispose();
-  }
-
-  // Method to show the error dialog
-  void _showErrorDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Error'),
-          content: Text(message),
-          actions: <Widget>[
-            TextButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
+class BooksList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Books List'),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      appBar: AppBar(title: Text('Books')),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
             child: TextField(
-              controller: _bookController.searchController,
               decoration: InputDecoration(
-                hintText: 'Search by title or author',
+                hintText: 'Search Books...',
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(25)),
                 prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
               ),
+              onChanged: (query) {
+                context.read<BookBloc>().add(SearchBooksEvent(query));
+              },
             ),
           ),
-        ),
-      ),
-      body: ValueListenableBuilder<List<Book>>(
-        valueListenable: _bookController.filteredBooksNotifier,  // Listen for filtered books
-        builder: (context, filteredBooks, _) {
-          // Check for any error
-          return ValueListenableBuilder<String?>(
-            valueListenable: _bookController.errorNotifier,
-            builder: (context, errorMessage, _) {
-              if (errorMessage != null) {
-                // If there's an error, show the error dialog
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  _showErrorDialog(errorMessage);
-                });
-              }
-
-              return filteredBooks.isEmpty
-                  ? Center(child: CircularProgressIndicator())
-                  : ListView.builder(
-                      itemCount: filteredBooks.length,
-                      itemBuilder: (context, index) {
-                        return ListTile(
+          Expanded(
+            child: BlocBuilder<BookBloc, BookState>(
+              builder: (context, state) {
+                if (state is BooksLoadingState) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (state is BooksLoadedState) {
+                  return ListView.builder(
+                    itemCount: state.filteredBooks.length,
+                    itemBuilder: (context, index) {
+                      final book = state.filteredBooks[index];
+                      return Container(
+                        margin: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey, width: 2),
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.white,
+                        ),
+                        child: ListTile(
                           leading: Image.file(
-                            File(filteredBooks[index].image!),
+                            File(book.image!),
                             width: 50,
                             height: 50,
                             fit: BoxFit.cover,
                             errorBuilder: (context, error, stackTrace) {
-                              return Icon(Icons.broken_image, size: 50, color: Colors.grey);
+                              return Icon(Icons.broken_image,
+                                  size: 50, color: Colors.grey);
                             },
                           ),
-                          title: Text(filteredBooks[index].title),
-                          subtitle: Text(filteredBooks[index].author),
-                          onTap: () {
-                            // Handle tap event
-                          },
-                        );
-                      },
-                    );
-            },
-          );
-        },
+                          title: Text(book.title),
+                          subtitle: Text(book.author),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                  icon: Icon(Icons.edit, color: Colors.blue),
+                                  onPressed: () {}),
+                              IconButton(
+                                icon: Icon(Icons.delete, color: Colors.red),
+                                onPressed: () {
+                                  context
+                                      .read<BookBloc>()
+                                      .add(DeleteBookEvent(book.id.toString()));
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                } else if (state is BooksErrorState) {
+                  return Center(child: Text(state.error));
+                }
+                return Container();
+              },
+            ),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
       ),
     );
   }
