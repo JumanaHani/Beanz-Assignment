@@ -1,7 +1,7 @@
 import 'package:beanz_assessment/data/data_source/remote/book_api_services.dart';
 import 'package:beanz_assessment/domain/models/Book.dart';
-import 'package:beanz_assessment/presentation/Bloc/bloc/book_event.dart';
-import 'package:beanz_assessment/presentation/Bloc/bloc/book_state.dart';
+import 'package:beanz_assessment/presentation/Bloc/book_bloc/book_event.dart';
+import 'package:beanz_assessment/presentation/Bloc/book_bloc/book_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BookBloc extends Bloc<BookEvent, BookState> {

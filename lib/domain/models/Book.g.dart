@@ -23,13 +23,14 @@ class BookAdapter extends TypeAdapter<Book> {
       description: fields[3] as String?,
       image: fields[4] as String?,
       isFavorite: fields[5] as bool,
+      publicationDate: fields[6] as DateTime?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Book obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class BookAdapter extends TypeAdapter<Book> {
       ..writeByte(4)
       ..write(obj.image)
       ..writeByte(5)
-      ..write(obj.isFavorite);
+      ..write(obj.isFavorite)
+      ..writeByte(6)
+      ..write(obj.publicationDate);
   }
 
   @override
@@ -66,6 +69,9 @@ Book _$BookFromJson(Map<String, dynamic> json) => Book(
       description: json['description'] as String?,
       image: json['image'] as String?,
       isFavorite: json['isFavorite'] as bool? ?? false,
+      publicationDate: json['publicationDate'] == null
+          ? null
+          : DateTime.parse(json['publicationDate'] as String),
     );
 
 Map<String, dynamic> _$BookToJson(Book instance) => <String, dynamic>{
@@ -75,4 +81,5 @@ Map<String, dynamic> _$BookToJson(Book instance) => <String, dynamic>{
       'description': instance.description,
       'image': instance.image,
       'isFavorite': instance.isFavorite,
+      'publicationDate': instance.publicationDate?.toIso8601String(),
     };

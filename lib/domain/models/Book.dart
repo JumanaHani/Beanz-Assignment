@@ -24,7 +24,10 @@ class Book {
   final String? image;
 
   @HiveField(5)
-  bool isFavorite; // Add the favorite field
+  bool isFavorite; 
+
+    @HiveField(6)
+  final DateTime? publicationDate;
 
   Book({
     required this.id,
@@ -33,6 +36,7 @@ class Book {
     this.description,
     this.image,
     this.isFavorite = false,
+    this.publicationDate
   });
 
   // Factory method for json_serializable

@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 class BookApiService {
   // you need to run json-server --watch db.json --port 3001 to generate a mock api server
   static const String baseUrl =
-      "http://192.168.1.22:3001/books"; // for physical devices I use the IPadress of the  mock API server device
+      "http://192.168.166.185:3001/books"; // for physical devices I use the IPadress of the  mock API server device
   //static const String baseUrl = 'http://10.0.2.2:3001/books'; // For Emulator
 
   Future<List<Book>> fetchBooks() async {
