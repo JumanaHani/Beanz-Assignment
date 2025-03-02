@@ -75,7 +75,6 @@ Book _$BookFromJson(Map<String, dynamic> json) => Book(
     );
 
 Map<String, dynamic> _$BookToJson(Book instance) => <String, dynamic>{
-      'id': instance.id,
       'title': instance.title,
       'author': instance.author,
       'description': instance.description,

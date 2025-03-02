@@ -3,8 +3,17 @@ import 'package:beanz_assessment/presentation/Bloc/book_bloc/book_bloc.dart';
 import 'package:beanz_assessment/presentation/Bloc/book_bloc/book_event.dart';
 import 'package:beanz_assessment/presentation/Bloc/book_bloc/book_state.dart';
 import 'package:beanz_assessment/presentation/details/book_details_screen.dart';
+import 'package:beanz_assessment/presentation/widgets/book_form.dart';
+import 'package:beanz_assessment/presentation/widgets/error_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+void showErrorDialog(BuildContext context, String errorMessage) {
+  showDialog(
+    context: context,
+    builder: (context) => ErrorDialog(message: errorMessage),
+  );
+}
 
 class BooksList extends StatelessWidget {
   @override
@@ -42,8 +51,7 @@ class BooksList extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  BookDetails(book: book),
+                              builder: (context) => BookDetails(book: book),
                             ),
                           );
                         },
@@ -69,24 +77,52 @@ class BooksList extends StatelessWidget {
                               book.title,
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            subtitle: Column(crossAxisAlignment: CrossAxisAlignment.start,
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(' (by ${book.author})',    maxLines: 1,
+                                Text(
+                                  ' (by ${book.author})',
+                                  maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                              
                                 ),
-                                Text(book.description??'',    maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,)
+                                Text(
+                                  book.description ?? '',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                )
                               ],
                             ),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 IconButton(
-                                    icon: Icon(Icons.edit, color: Colors.blue,size: 25,),
-                                    onPressed: () {}),
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: Colors.blue,
+                                    size: 25,
+                                  ),
+                                  onPressed: () async {
+                                    final updatedBook = await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            BookForm(book: book),
+                                      ),
+                                    );
+                                    if (!context.mounted) return;
+                                    if (updatedBook != null) {
+                                      context.read<BookBloc>().add(
+                                          EditBookEvent(
+                                              updatedBook)); // Refresh list
+                                    }
+                                  },
+                                ),
                                 IconButton(
-                                  icon: Icon(Icons.delete, color: Colors.red,size: 25,),
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                    size: 25,
+                                  ),
                                   onPressed: () {
                                     context.read<BookBloc>().add(
                                         DeleteBookEvent(book.id.toString()));
@@ -100,7 +136,7 @@ class BooksList extends StatelessWidget {
                     },
                   );
                 } else if (state is BooksErrorState) {
-                  return Center(child: Text(state.error));
+                  showErrorDialog(context, state.error);
                 }
                 return Container();
               },
@@ -109,11 +145,18 @@ class BooksList extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () async {
+          final newBook = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => BookForm()),
+          );
+          if (!context.mounted) return;
+          if (newBook != null) {
+            context.read<BookBloc>().add(AddBookEvent(newBook));
+          }
+        },
         child: Icon(Icons.add),
       ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked, // Centers at the bottom
-
     );
   }
 }

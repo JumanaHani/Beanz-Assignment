@@ -4,11 +4,12 @@ import 'package:beanz_assessment/domain/models/Book.dart';
 import 'package:http/http.dart' as http;
 
 class BookApiService {
-  // you need to run json-server --watch db.json --port 3001 to generate a mock api server
+  // Mock API server URLs
   static const String baseUrl =
-      "http://192.168.166.185:3001/books"; // for physical devices I use the IPadress of the  mock API server device
-  //static const String baseUrl = 'http://10.0.2.2:3001/books'; // For Emulator
+      "http://192.168.166.185:3001/books"; // For physical devices
+  // static const String baseUrl = 'http://10.0.2.2:3001/books'; // For Emulator
 
+  // Fetch all books
   Future<List<Book>> fetchBooks() async {
     try {
       final response = await http.get(Uri.parse(baseUrl));
@@ -19,52 +20,75 @@ class BookApiService {
       } else {
         throw Exception("Failed to load books: ${response.statusCode}");
       }
-    } on SocketException catch (_) {
+    } on SocketException {
       throw Exception("No internet connection. Please check your network.");
-    } on FormatException catch (_) {
+    } on FormatException {
       throw Exception("Failed to parse data. Please try again.");
     } catch (e) {
-      throw Exception("An unexpected error occurred. Please try again.");
+      throw Exception("An unexpected error occurred: ${e.toString()}");
     }
   }
 
   // Add a new book
   Future<Book> addBook(Book book) async {
-    final response = await http.post(
-      Uri.parse(baseUrl),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode(book.toJson()),
-    );
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> responseData = jsonDecode(response.body);
-      return Book.fromJson(responseData); // Convert response to Book object
-    } else {
-      throw Exception('Failed to add book');
+    try {
+      final response = await http.post(
+        Uri.parse(baseUrl),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(book.toJson()),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final Map<String, dynamic> responseData = jsonDecode(response.body);
+        return Book.fromJson(responseData);
+      } else {
+        throw Exception('Failed to add book: ${response.statusCode}');
+      }
+    } on SocketException {
+      throw Exception("No internet connection.");
+    } on FormatException {
+      throw Exception("Invalid response format.");
+    } catch (e) {
+      throw Exception("An error occurred: ${e.toString()}");
     }
   }
 
   // Edit an existing book
   Future<Book> editBook(Book book) async {
-    final response = await http.put(
-      Uri.parse('$baseUrl/${book.id}'),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode(book.toJson()),
-    );
+    try {
+      final response = await http.put(
+        Uri.parse('$baseUrl/${book.id}'),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(book.toJson()),
+      );
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> responseData = jsonDecode(response.body);
-      return Book.fromJson(responseData); // Convert response to Book object
-    } else {
-      throw Exception('Failed to update book');
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> responseData = jsonDecode(response.body);
+        return Book.fromJson(responseData);
+      } else {
+        throw Exception('Failed to update book: ${response.statusCode}');
+      }
+    } on SocketException {
+      throw Exception("No internet connection.");
+    } on FormatException {
+      throw Exception("Invalid response format.");
+    } catch (e) {
+      throw Exception("An error occurred: ${e.toString()}");
     }
   }
 
   // Delete a book
   Future<void> deleteBook(String id) async {
-    final response = await http.delete(Uri.parse('$baseUrl/$id'));
+    try {
+      final response = await http.delete(Uri.parse('$baseUrl/$id'));
 
-    if (response.statusCode != 200) {
-      throw Exception('Failed to delete book');
+      if (response.statusCode != 200 && response.statusCode != 204) {
+        throw Exception('Failed to delete book: ${response.statusCode}');
+      }
+    } on SocketException {
+      throw Exception("No internet connection.");
+    } catch (e) {
+      throw Exception("An error occurred: ${e.toString()}");
     }
   }
 }

@@ -38,6 +38,7 @@ dependencies:
   http: ^1.3.0
   flutter_bloc: ^9.0.0
   image_picker: ^0.8.6
+  fluttertoast: ^8.2.4
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

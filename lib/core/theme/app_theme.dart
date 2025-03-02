@@ -95,22 +95,22 @@ class AppTheme {
                 fontSize: largeFontSize,
                 color: blackColor,
                 fontWeight: FontWeight.bold)),
-        inputDecorationTheme: InputDecorationTheme(
+          inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(color: greyColor, width: 0.7),
+            borderSide: BorderSide(color: greyColor[200]!, width: 0.7),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(color: greyColor, width: 0.7),
+            borderSide: BorderSide(color: greyColor[200]!, width: 0.7),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(color: greyColor, width: 0.7),
+            borderSide: BorderSide(color: greyColor[200]!, width: 0.7),
           ),
           disabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(color: greyColor, width: 0.7),
+            borderSide: BorderSide(color: greyColor[200]!, width: 0.7),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
@@ -123,14 +123,14 @@ class AppTheme {
           filled: true,
           labelStyle: TextStyle(fontSize: mediumFontSize, color: fontColor),
           hintStyle:
-              TextStyle(fontSize: mediumFontSize, color: greyColor),
+              TextStyle(fontSize: mediumFontSize, color: greyColor[700]!),
           errorStyle: TextStyle(fontSize: mediumFontSize, color: errorColor),
-          fillColor: greyColor,
+          fillColor: greyColor[100]!,
           alignLabelWithHint: true,
           contentPadding: const EdgeInsets.all(8.0),
           floatingLabelStyle: const TextStyle(color: secondaryColor),
         ),
-        listTileTheme: ListTileThemeData(
+      listTileTheme: ListTileThemeData(
           titleTextStyle: TextStyle(
             fontFamily: defaultFontFamily,
             fontSize: mediumFontSize,
