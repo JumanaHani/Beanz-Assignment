@@ -18,7 +18,8 @@ class _BookFormState extends State<BookForm> {
 
   late TextEditingController titleController;
   late TextEditingController authorController;
-  late TextEditingController publisedDate;
+  late TextEditingController descriptionController;
+  late TextEditingController publisedDateController;
   late TextEditingController imageController;
 
   @override
@@ -26,18 +27,21 @@ class _BookFormState extends State<BookForm> {
     super.initState();
     titleController = TextEditingController(text: widget.book?.title ?? '');
     authorController = TextEditingController(text: widget.book?.author ?? '');
-    publisedDate=TextEditingController(text: widget.book?.publicationDate?.toIso8601String() ?? '');
+    descriptionController = TextEditingController(text: widget.book?.description ?? '');
+    publisedDateController = TextEditingController(
+        text: widget.book?.publicationDate?.toIso8601String() ?? '');
     imageController = TextEditingController(text: widget.book?.image ?? '');
   }
 
   void saveBook() async {
     if (_formKey.currentState!.validate()) {
       final book = Book(
-        id: widget.book?.id,
-        title: titleController.text,
-        author: authorController.text,
-        image: imageController.text,
-      );
+          id: widget.book?.id,
+          title: titleController.text,
+          author: authorController.text,
+          description: descriptionController.text,
+          image: imageController.text,
+          publicationDate: DateTime.parse(publisedDateController.text));
 
       try {
         if (widget.book == null) {
@@ -73,35 +77,78 @@ class _BookFormState extends State<BookForm> {
         padding: EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: titleController,
-                decoration: InputDecoration(labelText: 'Title'),
-                validator: (value) => value!.isEmpty ? 'Enter a title' : null,
-              ),
-              SizedBox(height: 20,),
-              TextFormField(
-                controller: authorController,
-                decoration: InputDecoration(labelText: 'Author'),
-                validator: (value) => value!.isEmpty ? 'Enter an author' : null,
-              ),
-                 SizedBox(height: 20,),
-              TextFormField(
-                controller: imageController,
-                readOnly: true, // Prevent manual input
-                onTap: pickImage, // Open gallery on tap
-                decoration: InputDecoration(
-                  labelText: 'Choose Image',
-                  suffixIcon: Icon(Icons.image),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: titleController,
+                  decoration: InputDecoration(labelText: 'Title'),
+                  validator: (value) => value!.isEmpty ? 'Enter a title' : null,
                 ),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: saveBook,
-                child: Text(widget.book == null ? 'Add' : 'Update'),
-              ),
-            ],
+                SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  controller: authorController,
+                  decoration: InputDecoration(labelText: 'Author'),
+                  validator: (value) =>
+                      value!.isEmpty ? 'Enter an author' : null,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  controller: descriptionController,
+                  decoration: InputDecoration(labelText: 'Description'),
+                  validator: (value) =>
+                      value!.isEmpty ? 'Enter an description' : null,
+                  maxLines: 3,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  controller: publisedDateController,
+                  decoration: InputDecoration(
+                    labelText: 'Publication Date',
+                    suffixIcon: Icon(Icons.calendar_today),
+                  ),
+                  readOnly: true,
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime(2100),
+                    );
+
+                    if (pickedDate != null) {
+                      publisedDateController.text = "${pickedDate.toLocal()}"
+                          .split(' ')[0]; // Formats the date
+                    }
+                  },
+                  validator: (value) =>
+                      value!.isEmpty ? 'Enter a publication date' : null,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                TextFormField(
+                  controller: imageController,
+                  readOnly: true, // Prevent manual input
+                  onTap: pickImage, // Open gallery on tap
+                  decoration: InputDecoration(
+                    labelText: 'Choose Image',
+                    suffixIcon: Icon(Icons.image),
+                  ),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: saveBook,
+                  child: Text(widget.book == null ? 'Add' : 'Update'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,59 +1,7 @@
 {
   "books": [
-    {
-      "id": null,
-      "title": "test",
-      "author": "gh",
-      "description": null,
-      "image": "/data/user/0/com.example.beanz_assessment/cache/987513f7-2b82-4886-9904-89dcfd729a7f/1000034583.jpg",
-      "isFavorite": false,
-      "publicationDate": null
-    },
-    {
-      "id": null,
-      "title": "yt",
-      "author": "hv",
-      "description": null,
-      "image": "/data/user/0/com.example.beanz_assessment/cache/ea74813b-7445-45bd-913e-359056839f9f/1000034673.jpg",
-      "isFavorite": false,
-      "publicationDate": null
-    },
-    {
-      "id": null,
-      "title": "gh",
-      "author": "gb",
-      "description": null,
-      "image": "/data/user/0/com.example.beanz_assessment/cache/9c827d11-95bc-4ef1-aa42-41e5d6fac075/1000034663.jpg",
-      "isFavorite": false,
-      "publicationDate": null
-    },
-    {
-      "id": null,
-      "title": "gh",
-      "author": "gb",
-      "description": null,
-      "image": "/data/user/0/com.example.beanz_assessment/cache/9c827d11-95bc-4ef1-aa42-41e5d6fac075/1000034663.jpg",
-      "isFavorite": false,
-      "publicationDate": null
-    },
-    {
-      "id": null,
-      "title": "test",
-      "author": "test",
-      "description": null,
-      "image": "/data/user/0/com.example.beanz_assessment/cache/be3abc7c-9f56-419f-afa1-1555a47fb403/1000034679.jpg",
-      "isFavorite": false,
-      "publicationDate": null
-    },
-    {
-      "id": null,
-      "title": "test",
-      "author": "test",
-      "description": null,
-      "image": "/data/user/0/com.example.beanz_assessment/cache/be3abc7c-9f56-419f-afa1-1555a47fb403/1000034679.jpg",
-      "isFavorite": false,
-      "publicationDate": null
-    },
+
+
     {
       "id": "12b5",
       "title": "testtest",
@@ -62,6 +10,25 @@
       "image": "/data/user/0/com.example.beanz_assessment/cache/9804ddfb-2c19-4d6f-9407-83702c1001f2/1000034652.jpg",
       "isFavorite": false,
       "publicationDate": null
+    },
+    {
+      "id": "242f",
+      "title": "test jumana",
+      "author": "jumana",
+      "description": "jjsnsnnnznsjb",
+      "image": "/data/user/0/com.example.beanz_assessment/cache/e84defec-fd50-4cd4-928c-7565dacd8df7/1000034663.jpg",
+      "isFavorite": false,
+      "publicationDate": "2025-02-11T00:00:00.000"
+    },
+    {
+      "id": "3116",
+      "title": "15",
+      "author": "hj12",
+      "description": "hgfgj",
+      "image": "/data/user/0/com.example.beanz_assessment/cache/e124c280-ace9-48f2-9d7d-d3db1b1cc0f1/1000034673.jpg",
+      "isFavorite": false,
+      "publicationDate": "2025-03-06T00:00:00.000"
     }
+  
   ]
 }

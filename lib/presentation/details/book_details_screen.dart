@@ -1,11 +1,14 @@
 import 'dart:io';
 
 import 'package:beanz_assessment/domain/models/Book.dart';
+import 'package:beanz_assessment/presentation/Bloc/book_bloc/book_bloc.dart';
+import 'package:beanz_assessment/presentation/Bloc/book_bloc/book_event.dart';
 import 'package:beanz_assessment/presentation/Bloc/favorite_bloc/favorite_book_bloc.dart';
 import 'package:beanz_assessment/presentation/Bloc/favorite_bloc/favorite_book_event.dart';
 import 'package:beanz_assessment/presentation/Bloc/favorite_bloc/favorite_book_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class BookDetails extends StatelessWidget {
   final Book book;
@@ -36,6 +39,11 @@ class BookDetails extends StatelessWidget {
                     context
                         .read<FavoriteBloc>()
                         .add(ToggleFavoriteEvent(book.id!));
+                    // Ensure UI updates immediately
+    context.read<FavoriteBloc>().add(LoadFavoritesEvent());
+
+    // Refresh book list to remove it from favorites tab
+    context.read<BookBloc>().add(FetchBooksEvent()); 
                   },
                 );
               },
@@ -47,12 +55,13 @@ class BookDetails extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
+              Card(
+                shape: Border.all(),
                 child: Image.file(
                   File(book.image!),
-                  height: 200,
-                  width: 150,
-                  fit: BoxFit.cover,
+                  height: MediaQuery.of(context).size.height * 0.35,
+                  width: double.infinity,
+                  fit: BoxFit.fill,
                   errorBuilder: (context, error, stackTrace) {
                     return Icon(Icons.broken_image,
                         size: 100, color: Colors.red);
@@ -65,7 +74,9 @@ class BookDetails extends StatelessWidget {
               SizedBox(height: 10),
               Text("Author: ${book.author}", style: TextStyle(fontSize: 18)),
               SizedBox(height: 10),
-              Text("Published date:  ${book.publicationDate?.toIso8601String()}", style: TextStyle(fontSize: 18))
+              Text(
+                  "Published date: ${DateFormat('yyyy-MM-dd').format(book.publicationDate!)}",
+                  style: TextStyle(fontSize: 18))
             ],
           ),
         ),
