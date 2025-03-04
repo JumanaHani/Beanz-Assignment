@@ -3,53 +3,53 @@ import 'dart:io';
 import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart';
 
-
 class Boxes {
-  static Box<bool> get favoriteBox =>
-      Hive.box<bool>('favorites');
+  static Box<bool>? favoriteBox; // Make it nullable to handle cases when it's not yet opened
 
+  static Box<bool> get favoriteBoxInstance {
+    if (favoriteBox == null) {
+      throw Exception('Hive box not initialized. Call openBoxes() first.');
+    }
+    return favoriteBox!;
+  }
 
   static Future<void> initHive() async {
-   print('init Hive');
-
-   await Hive.initFlutter(await _dbPath());
-  
+    print('init Hive');
+    // Initialize Hive and provide a path
+    await Hive.initFlutter(await _dbPath());
   }
+
   static Future<String> _dbPath() async {
     // Get the application's document directory
     Directory appDir = await getApplicationDocumentsDirectory();
-
-    // Get the chosen sub-directory for Hive files
-    return '${appDir.path}';
+    // Return the directory path for Hive files
+    return appDir.path;
   }
+
+  // Method to clear the database by closing boxes and optionally clearing data
   static Future<void> clearDb() async {
-     await Hive.close();
-    // Directory hiveDb = Directory(await _dbPath());
-    // await hiveDb.delete(recursive: true);
-    await openBoxes();
+    print('Clearing DB...');
+    await compactAndCloseBoxes();
+    // Optionally, delete files or reset the boxes here
+    await openBoxes(); // Reopen boxes after clearing if needed
   }
 
-
-
+  // Method to close the database and compact it
   static Future<void> closeDatabase() async {
-  
-
-    
-      await compactAndCloseBoxes();
-    
+    print('Closing Hive DB...');
+    await compactAndCloseBoxes();
   }
 
+  // Compact and close all boxes
   static Future<void> compactAndCloseBoxes() async {
     print('Compacting & closing box Favorite');
-    await favoriteBox.close();
+    await favoriteBox?.close();
+    favoriteBox = null; // Ensure the box is not reused unintentionally
   }
 
+  // Method to open boxes (ensure they are opened properly)
   static Future<void> openBoxes() async {
-    print('hive openBoxes');
-
-    await Hive.openBox<bool>('favorites');
-    
-
+    print('Opening Hive Boxes...');
+    favoriteBox = await Hive.openBox<bool>('favorites');
   }
-
 }

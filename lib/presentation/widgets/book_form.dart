@@ -34,14 +34,16 @@ class _BookFormState extends State<BookForm> {
   }
 
   void saveBook() async {
+    print('save');
     if (_formKey.currentState!.validate()) {
+      print('validate inpute');
       final book = Book(
           id: widget.book?.id,
           title: titleController.text,
           author: authorController.text,
           description: descriptionController.text,
           image: imageController.text,
-          publicationDate: DateTime.parse(publisedDateController.text));
+          publicationDate:       DateTime.tryParse(publisedDateController.text) ?? DateTime.now(),);
 
       try {
         if (widget.book == null) {
@@ -54,6 +56,7 @@ class _BookFormState extends State<BookForm> {
         print("Error saving book: $e");
       }
     }
+  
   }
 
   final ImagePicker picker = ImagePicker();
@@ -75,12 +78,12 @@ class _BookFormState extends State<BookForm> {
           AppBar(title: Text(widget.book == null ? 'Add Book' : 'Edit Book')),
       body: Padding(
         padding: EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
             child: Column(
               children: [
-                TextFormField(
+                TextFormField(key: Key('titleField'),
                   controller: titleController,
                   decoration: InputDecoration(labelText: 'Title'),
                   validator: (value) => value!.isEmpty ? 'Enter a title' : null,
@@ -88,7 +91,7 @@ class _BookFormState extends State<BookForm> {
                 SizedBox(
                   height: 20,
                 ),
-                TextFormField(
+                TextFormField(key: Key('authorField'),
                   controller: authorController,
                   decoration: InputDecoration(labelText: 'Author'),
                   validator: (value) =>
@@ -121,14 +124,15 @@ class _BookFormState extends State<BookForm> {
                       firstDate: DateTime(2000),
                       lastDate: DateTime(2100),
                     );
-
+            
                     if (pickedDate != null) {
                       publisedDateController.text = "${pickedDate.toLocal()}"
                           .split(' ')[0]; // Formats the date
                     }
+                  
                   },
-                  validator: (value) =>
-                      value!.isEmpty ? 'Enter a publication date' : null,
+                  // validator: (value) =>
+                  //     value!.isEmpty ? 'Enter a publication date' : null,
                 ),
                 SizedBox(
                   height: 20,
@@ -143,7 +147,7 @@ class _BookFormState extends State<BookForm> {
                   ),
                 ),
                 SizedBox(height: 20),
-                ElevatedButton(
+                ElevatedButton(  key: Key('saveButton'),
                   onPressed: saveBook,
                   child: Text(widget.book == null ? 'Add' : 'Update'),
                 ),

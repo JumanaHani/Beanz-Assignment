@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -7,7 +8,7 @@ part 'Book.g.dart';
 
 @JsonSerializable() //to automatically generate code for serializing and deserializing Dart objects to and from JSON
 @HiveType(typeId: 0)
-class Book {
+class Book extends Equatable{
   @HiveField(0)
   final String? id;
 
@@ -44,4 +45,7 @@ class Book {
 
   // // Method to convert Book to JSON
   Map<String, dynamic> toJson() => _$BookToJson(this);
+  
+  @override
+  List<Object?> get props => [id, title, author];  // Ensure properties used in equality checks
 }
