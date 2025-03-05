@@ -172,7 +172,9 @@ class _BooksListState extends State<BooksList> {
                   if (updatedBook != null) {
                     context
                         .read<BookBloc>()
-                        .add(EditBookEvent(updatedBook)); // Refresh list
+                        .add(EditBookEvent(updatedBook)); 
+                        
+                        context.read<BookBloc>().add(FetchBooksEvent()); // Refresh list
                   }
                 },
               ),

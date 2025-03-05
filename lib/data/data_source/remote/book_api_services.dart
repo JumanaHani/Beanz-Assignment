@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 class BookApiService {
   // Mock API server URLs
   static const String baseUrl =
-      "http://192.168.208.185:3001/books"; // For physical devices use the ip address of the mock api server
+      "http://192.168.175.185:3001/books"; // For physical devices use the ip address of the mock api server
   // static const String baseUrl = 'http://10.0.2.2:3001/books'; // For Emulator
 
   // Fetch all books

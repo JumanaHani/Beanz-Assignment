@@ -10,6 +10,7 @@
 
 
     <application
+        android:enableOnBackInvokedCallback="true"
         android:label="beanz_assessment"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

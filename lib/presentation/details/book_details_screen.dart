@@ -55,17 +55,18 @@ class BookDetails extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Card(
-                shape: Border.all(),
-                child: Image.file(
-                  File(book.image!),
-                  height: MediaQuery.of(context).size.height * 0.35,
-                  width: double.infinity,
-                  fit: BoxFit.fill,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Icon(Icons.broken_image,
-                        size: 100, color: Colors.red);
-                  },
+              Center(
+                child: Card(
+                  child: Image.file(
+                    File(book.image!),
+                    height: MediaQuery.of(context).size.height * 0.35,
+                    width: double.infinity,
+                    fit: BoxFit.fill,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Icon(Icons.broken_image,
+                          size: 100, color: Colors.red);
+                    },
+                  ),
                 ),
               ),
               SizedBox(height: 20),
@@ -75,7 +76,7 @@ class BookDetails extends StatelessWidget {
               Text("Author: ${book.author}", style: TextStyle(fontSize: 18)),
               SizedBox(height: 10),
               Text(
-                  "Published date: ${DateFormat('yyyy-MM-dd').format(book.publicationDate!)}",
+                  "Published date: ${book.publicationDate==null?" ":DateFormat('yyyy-MM-dd').format(book.publicationDate!)} ",
                   style: TextStyle(fontSize: 18))
             ],
           ),

@@ -1,49 +1,31 @@
 {
-  "Allbooks": [
+  "books": [
     {
-      "id": "12b5",
-      "title": "testtest",
-      "author": "hj",
-      "description": null,
-      "image": "/data/user/0/com.example.beanz_assessment/cache/9804ddfb-2c19-4d6f-9407-83702c1001f2/1000034652.jpg",
+      "title": "Atomic Habits",
+      "author": "James Clear",
+      "description": "A guide to building good habits, breaking bad ones, and mastering the tiny behaviors that lead to remarkable results.",
+      "image": "/data/user/0/com.example.beanz_assessment/cache/37524b4f-d899-4df1-8c69-d1efe79f719f/1000034407.jpg",
       "isFavorite": false,
-      "publicationDate": null
+      "publicationDate": "2025-03-25T00:00:00.000",
+      "id": "1"
     },
     {
-      "id": "242f",
-      "title": "test jumana",
-      "author": "jumana",
-      "description": "jjsnsnnnznsjb",
-      "image": "/data/user/0/com.example.beanz_assessment/cache/e84defec-fd50-4cd4-928c-7565dacd8df7/1000034663.jpg",
+      "title": "The Alchemist1",
+      "author": "Paulo Coelho",
+      "description": "A philosophical novel about following one's dreams and listening to one's heart.",
+      "image": "/data/user/0/com.example.beanz_assessment/cache/2450eb87-d2bc-4a3d-aed4-85e0c7753eca/1000034431.jpg",
       "isFavorite": false,
-      "publicationDate": "2025-02-11T00:00:00.000"
+      "publicationDate": "2025-03-13T00:00:00.000",
+      "id": "2"
     },
     {
-      "id": "3116",
-      "title": "15",
-      "author": "hj12",
-      "description": "hgfgj",
-      "image": "/data/user/0/com.example.beanz_assessment/cache/e124c280-ace9-48f2-9d7d-d3db1b1cc0f1/1000034673.jpg",
+      "title": "Rich Dad Poor Dad",
+      "author": "Robert T. Kiyosaki",
+      "description": "A book about financial education and the difference in mindset between the rich and the poor.",
+      "image": "/data/user/0/com.example.beanz_assessment/cache/cff2e994-f58b-45f8-8a6d-34c8b484483c/1000035089.jpg",
       "isFavorite": false,
-      "publicationDate": "2025-03-06T00:00:00.000"
-    },
-    {
-      "id": "081a",
-      "title": "jumana",
-      "author": "hyhf",
-      "description": "dgbgfg",
-      "image": "",
-      "isFavorite": false,
-      "publicationDate": "2025-03-04T21:01:01.798632"
-    },
-    {
-      "id": "8c1b",
-      "title": "jumana",
-      "author": "hyhf",
-      "description": "dgbgfg",
-      "image": "",
-      "isFavorite": false,
-      "publicationDate": "2025-03-04T21:01:01.798632"
+      "publicationDate": "2025-03-07T00:00:00.000",
+      "id": "3"
     }
   ]
 }
